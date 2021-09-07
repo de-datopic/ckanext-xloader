@@ -344,7 +344,7 @@ def xloader_status(context, data_dict):
         job_detail = db.get_job(job_id)
 
         # Attach time zone data to logs if needed
-        if job_detail['logs']:
+        if job_detail and job_detail['logs']:
             for log in job_detail['logs']:
                 if 'timestamp' in log:
                     date = log['timestamp']
