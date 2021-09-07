@@ -344,11 +344,12 @@ def xloader_status(context, data_dict):
         job_detail = db.get_job(job_id)
 
         # Attach time zone data to logs if needed
-        for log in job_detail['logs']:
-            if 'timestamp' in log:
-                date = log['timestamp']
-                if not date.tzinfo:
-                    log['timestamp'] = h.get_display_timezone().localize(date)
+        if job_detail['logs']:
+            for log in job_detail['logs']:
+                if 'timestamp' in log:
+                    date = log['timestamp']
+                    if not date.tzinfo:
+                        log['timestamp'] = h.get_display_timezone().localize(date)
     
     try:
         error = json.loads(task['error'])

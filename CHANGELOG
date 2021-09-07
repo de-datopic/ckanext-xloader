@@ -1,3 +1,19 @@
+0.8.3 2021-09-07
+===============
+
+Fixes:
+
+* Fix bug when no logs available
+
+
+0.8.2 2021-09-07
+===============
+
+Fixes:
+
+* Logs shown in local time
+
+
 0.8.1 2021-08-30
 ================
 
