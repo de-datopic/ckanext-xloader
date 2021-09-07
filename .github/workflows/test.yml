@@ -76,3 +76,21 @@ jobs:
         paster --plugin=ckan db init -c test.ini
     - name: Run tests
       run: pytest --ckan-ini=test.ini --cov=ckanext.xloader --disable-warnings ckanext/xloader/tests
+  
+  publish:
+    needs: test
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      if:  ${{ github.ref == 'refs/heads/master' }}
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        pip install setuptools wheel twine
+        pip install -r requirements.txt
+        pip install -r dev-requirements.txt
+        python3 setup.py sdist bdist_wheel
+    - name: Publish
+      if: ${{ github.ref == 'refs/heads/master' }}
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        twine upload --verbose --repository-url https://cepsa.jfrog.io/artifactory/api/pypi/datopic-python -u "${{ secrets.ARTIFACTORY_USER }}" -p "${{ secrets.ARTIFACTORY_PWD }}" --non-interactive dist/*
